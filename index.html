@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Country Bounty</title>
+ <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+
+ <div id="container">
+
+
+ </div>
+</body>
+
+<script>
+ let container = document.querySelector("#container");
+ let request = new XMLHttpRequest();
+ request.open('GET', "https://restcountries.com/v3.1/name/nepal");
+ request.send();
+
+
+ // to get the response
+ request.addEventListener('load', function () {
+  // console.log(this.responseText);
+  // we have to convert JSON dta that we see from above comment in console to object form so that javascript can understand it
+  const [data] = JSON.parse(this.responseText);
+  // console.log(data);//like this we get our data from api(JSOn) to object form
+  // console.log(data.name.common);// and like this we access particular key value pair
+  // console.log(Object.assign({}, data.capital));//converting data.capital that is an array to object.
+  console.log(data.flags.png);
+
+
+  // now how to show these data values into our html and css card
+  const htmlData = `
+   <div id="card">
+   <article class="card">
+    <div class="card-body">
+     <img src="${data.flags.png}" alt="" class="card-body-image">
+     <h1 class="card-body-title">
+      ${data.name.common} <span></span>
+     </h1>
+     <p class="card-body-text">capital: ${data.capital}</p>
+    </div>
+    <div class="card-footer">
+     <div class="card-footer-social">
+      <h3>${data.languages.nep}</h3>
+      <p>Native Language</p>
+     </div>
+
+     <div class="card-footer-social">
+      <h3>${data.population}</h3>
+      <p>Population</p>
+     </div>
+
+     <div class="card-footer-social">
+      <h3>${data.demonyms.eng.f}</h3>
+      <p>Currency</p>
+     </div>
+    </div>
+   </article>
+  </div>
+ </div>
+  `;
+
+  // to print our htmlData variable
+
+  container.insertAdjacentHTML('afterbegin', htmlData);
+ })
+</script>
+
+</html>
